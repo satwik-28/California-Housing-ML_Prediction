@@ -1,20 +1,19 @@
 from flask import Flask, render_template, request
 import numpy as np
-import joblib
+
 import os
+import joblib
 
 app = Flask(__name__)
 
-# Get base directory
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 MODELS_DIR = os.path.join(BASE_DIR, "models")
 
-# Load models safely
 regression_model = joblib.load(os.path.join(MODELS_DIR, "regression_model.pkl"))
 rf_model = joblib.load(os.path.join(MODELS_DIR, "classifier_model.pkl"))
 svm_model = joblib.load(os.path.join(MODELS_DIR, "svm_model.pkl"))
 scaler = joblib.load(os.path.join(MODELS_DIR, "scaler.pkl"))
-
 labels = {0: "Low", 1: "Medium", 2: "High"}
 
 
