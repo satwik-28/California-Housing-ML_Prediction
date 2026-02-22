@@ -1,14 +1,19 @@
 from flask import Flask, render_template, request
 import numpy as np
 import joblib
+import os
 
 app = Flask(__name__)
 
-# Load models
-regression_model = joblib.load("models/regression_model.pkl")
-rf_model = joblib.load("models/classifier_model.pkl")
-svm_model = joblib.load("models/svm_model.pkl")
-scaler = joblib.load("models/scaler.pkl")
+# Get base directory
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+MODELS_DIR = os.path.join(BASE_DIR, "models")
+
+# Load models safely
+regression_model = joblib.load(os.path.join(MODELS_DIR, "regression_model.pkl"))
+rf_model = joblib.load(os.path.join(MODELS_DIR, "classifier_model.pkl"))
+svm_model = joblib.load(os.path.join(MODELS_DIR, "svm_model.pkl"))
+scaler = joblib.load(os.path.join(MODELS_DIR, "scaler.pkl"))
 
 labels = {0: "Low", 1: "Medium", 2: "High"}
 
@@ -48,4 +53,4 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(host="0.0.0.0")
